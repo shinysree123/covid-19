@@ -1,5 +1,6 @@
 var Express =require('express');
 var {testModel}=require('../model/test');
+var {covidModel}=require('../model/detail');
 const testrouter=Express.Router();
 router.get('/covid test results',(req,res)=>{
     res.send("welcome to  portal");
