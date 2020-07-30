@@ -1,11 +1,22 @@
 var Express =require('express');
 var {testModel}=require('../model/test');
 var {covidModel}=require('../model/detail');
-const testrouter=Express.Router();
-testrouter.get('/covid test results',(req,res)=>{
+const testRouter=Express.Router();
+testRouter.get('/covid test results',(req,res)=>{
     res.send("welcome to  portal");
 });
-testrouter.post('/search', async (req, res) => {
+testRouter.post('/add',async(req,res)=>{
+    try {
+        var testData= new testModel(req.body);
+        var result= await testData.save();
+        res.json(result);
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);        
+    }
+});
+testRouter.post('/search', async (req, res) => {
     try {
         var searchkey = req.body.mydata;
         testModel.find({ "user_id": searchkey}, (error, data) => {
@@ -20,7 +31,7 @@ testrouter.post('/search', async (req, res) => {
         res.status(500).send(error);
     }
 });
-testrouter.post('/result', async (req, res) => {
+testRouter.post('/result', async (req, res) => {
     try {
         var searchuser_id = req.body.user_id;
         var searchresult = req.body.test_result;
@@ -43,7 +54,7 @@ testrouter.post('/result', async (req, res) => {
         res.status(500).send(error);
     }
 });
-testrouter.post('/delete', (req, res) => {
+testRouter.post('/delete', (req, res) => {
     try {
         testModel.findByIdAndDelete(req.body.user_id, (error, data) => {
             if (error) {
@@ -60,7 +71,7 @@ testrouter.post('/delete', (req, res) => {
         })
     } catch (error) {}
 });
-testrouter.post('/update', (req, res) => {
+testRouter.post('/update', (req, res) => {
     try {
         testModel.findOneAndUpdate({
                 date: req.body.date
@@ -78,7 +89,7 @@ testrouter.post('/update', (req, res) => {
             })
     } catch (error) {}
 });
-testrouter.get('/viewcoviddetails', async (req, res) => {
+testRouter.get('/viewcoviddetails', async (req, res) => {
     testModel.aggregate(
         [{
             $lookup: {
@@ -92,7 +103,7 @@ testrouter.get('/viewcoviddetails', async (req, res) => {
         }
     )
 });
-module.exports=testrouter;
+module.exports=testRouter;
 
 
 
