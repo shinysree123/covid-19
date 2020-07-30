@@ -2,10 +2,10 @@ var Express =require('express');
 var {testModel}=require('../model/test');
 var {covidModel}=require('../model/detail');
 const testrouter=Express.Router();
-router.get('/covid test results',(req,res)=>{
+testrouter.get('/covid test results',(req,res)=>{
     res.send("welcome to  portal");
 });
-router.post('/search', async (req, res) => {
+testrouter.post('/search', async (req, res) => {
     try {
         var searchkey = req.body.mydata;
         testModel.find({ "user_id": searchkey}, (error, data) => {
@@ -20,7 +20,7 @@ router.post('/search', async (req, res) => {
         res.status(500).send(error);
     }
 });
-router.post('/result', async (req, res) => {
+testrouter.post('/result', async (req, res) => {
     try {
         var searchuser_id = req.body.user_id;
         var searchresult = req.body.test_result;
@@ -43,7 +43,7 @@ router.post('/result', async (req, res) => {
         res.status(500).send(error);
     }
 });
-router.post('/delete', (req, res) => {
+testrouter.post('/delete', (req, res) => {
     try {
         testModel.findByIdAndDelete(req.body.user_id, (error, data) => {
             if (error) {
@@ -60,7 +60,7 @@ router.post('/delete', (req, res) => {
         })
     } catch (error) {}
 });
-router.post('/update', (req, res) => {
+testrouter.post('/update', (req, res) => {
     try {
         testModel.findOneAndUpdate({
                 date: req.body.date
@@ -78,7 +78,7 @@ router.post('/update', (req, res) => {
             })
     } catch (error) {}
 });
-router.get('/viewcoviddetails', async (req, res) => {
+testrouter.get('/viewcoviddetails', async (req, res) => {
     testModel.aggregate(
         [{
             $lookup: {

@@ -1,7 +1,7 @@
 var Express =require('express');
 var {covidModel}=require('../model/detail');
 var {testModel}=require('../model/test');
-const patientrouter=Express.Router();
+const router=Express.Router();
 router.get('/covid-19',(req,res)=>{
     res.send("welcome to  portal");
 });
@@ -23,4 +23,4 @@ router.post('/viewall',async(req,res)=>{
     res.status(500).send(error);
     }
 });
-module.exports=patientrouter;
+module.exports=router;
